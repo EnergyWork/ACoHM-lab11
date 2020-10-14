@@ -4,6 +4,7 @@ import time
 from threading import Thread
 import pylab
 from matplotlib import mlab
+import math
 
 TIMES = 10000
 TIMES_2 = 210
@@ -57,7 +58,12 @@ def draw2():
     print(arr3)
     
     pylab.figure(2)
-    pylab.bar(range(1, len(arr3) + 1), arr3)
+    lb = ['{xx} - {yy}'.format(xx=truncate(intervals[i], 3), yy=truncate(intervals[i-1], 3)) for i in range(len(intervals))]
+    #print(lb)
+    ind = range(1, len(arr3) + 1)
+    pylab.bar(ind, arr3)
+    pylab.xticks(ind, lb, fontsize=7, rotation=45)
+    #pylab.legend(lb, loc='upper center', bbox_to_anchor=(0, 0), ncol=1)
     pylab.show()
 
 def draw():
@@ -70,6 +76,10 @@ def draw():
     pylab.legend(['Статистически', 'Теоретически'], loc='lower left', bbox_to_anchor=(-0.02, -0.27), ncol=2)
     pylab.subplots_adjust(left=0.14, right=0.93, top=0.87, bottom=0.2)
     # pylab.show()
+
+def truncate(number, digits) -> float:
+    stepper = 10.0 ** digits
+    return math.trunc(stepper * number) / stepper
 
 if __name__ == "__main__":
     # foo()
