@@ -1,6 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from threading import Thread
+import pylab
+from matplotlib import mlab
 
 TIMES = 10000
 TIMES_2 = 210
@@ -24,6 +27,14 @@ def foo(t=-1):
     res.append(f)
     print(t, stats, f'Статистически: {stats[0] / TIMES}')
 
+def get_interval(ps, intervals):
+    for i in range(1, len(intervals)):
+        if ps >= intervals[i-1] and ps < intervals[i]:
+            return i-1
+    else: 
+        return i-1
+        # raise Exception(f'Не все р были распределены по интервалам: {ps}')
+
 def statistics():
     st = time.time()
     for t in range(TIMES_2):
@@ -31,26 +42,36 @@ def statistics():
     print(f'Теоретически: {THEOR}')
     print(f'--- {time.time() - st} sec ---')
 
-    mas = np.array(res)
-    # mas = sorted(mas)
-    mas = np.reshape(mas, (7, 30))
-    print(mas)
-    mas2 = [sum(x) for x in mas]
-    print(mas2)
-    plt.bar(range(len(mas2)), mas2)
-    plt.show()
+    draw()
+    draw2()
+
+def draw2():
+    max_stat_p = max(res); print(max_stat_p)
+    min_stat_p = min(res); print(min_stat_p)
+    step = (max_stat_p - min_stat_p) / 7; print(step)
+    intervals = np.arange(min_stat_p, max_stat_p + step, step)
+    print(intervals)
+    arr3 = [ 0 for _ in range(7) ]
+    for ps in res:
+        arr3[get_interval(ps, intervals)] += ps
+    print(arr3)
+    
+    pylab.figure(2)
+    pylab.bar(range(1, len(arr3) + 1), arr3)
+    pylab.show()
 
 def draw():
-    plt.plot(res, 'o', markersize=1.5)
-    plt.axhline(y=THEOR, color='r', linewidth=1)
-    plt.grid(True)
-    plt.xlabel('Номер попытки')
-    plt.ylabel('Вероятность')
-    plt.legend(['Статистически', 'Теоретически'], loc='lower left', bbox_to_anchor=(-0.02, -0.27), ncol=2)
-    plt.subplots_adjust(left=0.14, right=0.93, top=0.87, bottom=0.2)
-    plt.show()
+    pylab.figure(1)
+    pylab.plot(res, 'o', markersize=1.5)
+    pylab.axhline(y=THEOR, color='r', linewidth=1)
+    pylab.grid(True)
+    pylab.xlabel('Номер попытки')
+    pylab.ylabel('Вероятность')
+    pylab.legend(['Статистически', 'Теоретически'], loc='lower left', bbox_to_anchor=(-0.02, -0.27), ncol=2)
+    pylab.subplots_adjust(left=0.14, right=0.93, top=0.87, bottom=0.2)
+    # pylab.show()
 
 if __name__ == "__main__":
     # foo()
     statistics()
-    # draw()
+    # stoppp = input('Программа приостановлена')
