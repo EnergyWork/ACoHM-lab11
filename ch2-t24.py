@@ -1,4 +1,4 @@
-import math
+﻿import math
 import copy
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,7 +51,7 @@ def foo2(it):
     stats.append(arr)
     print(it, mydict, arr,  f'Статистически: {mydict[list(mydict)[-1]] / (mydict[list(mydict)[-1]] + mydict[list(mydict)[-2]])}') 
 
-for t in range(1000):
+for t in range(100):
     foo2(t)
 
 plt.plot(stats, 'o')
