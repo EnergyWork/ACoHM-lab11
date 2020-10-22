@@ -3,6 +3,11 @@ import copy
 import numpy as np
 import matplotlib.pyplot as plt
 
+"""
+Урна содержит N белых и N черных шаров. Вынимаются n раз по два шара, не возвращая вынутых шаров обратно.
+Какова вероятность того, что всегда будут выниматься пары разноцветных шаров?
+"""
+
 N = 5 # int(input('input N > ')) # N white and N black
 n = 3 # int(input('input n > ')) # take n times
 TIMES = 1001
