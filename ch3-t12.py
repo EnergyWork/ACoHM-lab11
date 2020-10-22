@@ -17,7 +17,7 @@ def in_rect(point, storona):
 
 def foo(t1=-1):
     points = []
-    for t in range(TIMES):
+    for _ in range(TIMES):
         x = 2 * math.pi * random.uniform(-R, R)
         r = R * math.sqrt(random.random())
         points.append([r * math.cos(x), r * math.sin(x)])
